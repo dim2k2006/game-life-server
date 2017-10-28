@@ -18,6 +18,7 @@ class Server {
         this.setupListeners = this.setupListeners.bind(this);
         this.onConnection = this.onConnection.bind(this);
         this.onMessage = this.onMessage.bind(this);
+        this.updateGame = this.updateGame.bind(this);
         this.sendUpdates = this.sendUpdates.bind(this);
         this.getColor = this.getColor.bind(this);
         this.init = this.init.bind(this);
@@ -86,6 +87,23 @@ class Server {
      */
     onMessage(message) {
         const data = JSON.parse(message);
+        const type = data.type;
+
+        switch(type) {
+            case 'ADD_POINT':
+                this.updateGame(data);
+                break;
+
+            default:
+                this.updateGame(data);
+        }
+    }
+
+    /**
+     * Update game state
+     * @param {Object} data
+     */
+    updateGame(data) {
         const gameData = data.data;
 
         if (gameData) {
