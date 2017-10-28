@@ -1,6 +1,9 @@
 const WebSocket = require('ws');
 const url = require('url');
 const Game = require('../lib/LifeGameVirtualDom');
+const settings = {
+    port: 4000
+};
 
 /**
  * Creates a new Server class
@@ -34,7 +37,7 @@ class Server {
      * Create server
      */
     createServer() {
-        this.wss = new WebSocket.Server({port: 4000});
+        this.wss = new WebSocket.Server({port: settings.port});
     }
 
     /**
