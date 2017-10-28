@@ -14,11 +14,9 @@ class Server {
         this.createServer = this.createServer.bind(this);
         this.setupListeners = this.setupListeners.bind(this);
         this.onConnection = this.onConnection.bind(this);
-
-
+        this.onMessage = this.onMessage.bind(this);
         this.sendUpdates = this.sendUpdates.bind(this);
         this.getColor = this.getColor.bind(this);
-
         this.init = this.init.bind(this);
 
         this.init();
@@ -73,10 +71,24 @@ class Server {
                 }
             };
 
+            ws.on('message', this.onMessage);
+
             ws.send(JSON.stringify(message));
         }
     }
 
+    /**
+     * Handle message event
+     * @param {String} message
+     */
+    onMessage(message) {
+        const data = JSON.parse(message);
+        const gameData = data.data;
+
+        if (gameData) {
+            this.game.applyUpdates(gameData)
+        }
+    }
 
     /**
      * Send game updates to clients
